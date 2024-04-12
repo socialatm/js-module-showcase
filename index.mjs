@@ -1,9 +1,5 @@
-function digestBody (body) {
-    const hash = crypto.createHash('sha256');
-    hash.update(body);
-    return `sha-256=${hash.digest('base64')}`
-  }
-
+import { digestBody } from "./digest.mjs"
+import crypto from "crypto"
 //client side
 const token = document.cookie
   .split('; ')
@@ -12,12 +8,12 @@ const token = document.cookie
 
 //axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-const form = document.getElementById('createPostForm');
+const form = document.getElementById('createPostForm')
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  const formData = new FormData(form);
+  const formData = new FormData(form)
   
   axios.post(formData.get('outbox'), {
     '@context': 'https://www.w3.org/ns/activitystreams',
@@ -31,8 +27,8 @@ form.addEventListener('submit', (event) => {
     'authorization': `Bearer ${token}`
   }
   }).then(({data}) => {
-    console.log(data);
-    document.getElementById('content').value = '';
+    console.log(data)
+    document.getElementById('content').value = ''
     document.getElementById('feed').insertAdjacentHTML('afterbegin', `${data.object.content}<br>`);
   }).catch(error => {
     console.log(error);
@@ -45,8 +41,8 @@ const replyForms = document.querySelectorAll(".reply-form");
 
 replyForms.forEach(form => {
   form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
+    event.preventDefault()
+    const formData = new FormData(form)
     
     axios.post(formData.get('outbox'), {
       "@context": "https://www.w3.org/ns/activitystreams",
@@ -65,12 +61,12 @@ replyForms.forEach(form => {
       'digest': digestBody(req.body)
     }
     }).then(({data}) => {
-      console.log(data);
-      document.getElementById('content').value = '';
+      console.log(data)
+      document.getElementById('content').value = ''
       document.getElementById('feed').insertAdjacentHTML('afterbegin', `${data.object.content}<br>`);
     }).catch(error => {
       console.log(error);
     });
 
-  });
-});
+  })
+})

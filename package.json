@@ -10,8 +10,5 @@
   "type": "module",
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "rollup-plugin-polyfill-node": "^0.13.0"
-  }
+  "license": "ISC"
 }
